@@ -1,16 +1,14 @@
 package ma.youcode.myrhbackendapi.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "jobseekers")
@@ -18,4 +16,7 @@ public class JobSeeker extends User {
     @Column(name = "identity_num",nullable = false, unique = true)
     private String identity;
     private String resume;
+
+    @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.LAZY)
+    private List<Application> applications;
 }

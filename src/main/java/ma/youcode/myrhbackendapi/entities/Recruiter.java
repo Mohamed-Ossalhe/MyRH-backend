@@ -1,18 +1,23 @@
 package ma.youcode.myrhbackendapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "recruiters")
 public class Recruiter extends User {
     private String password;
-    private String Address; // TODO: replace string type with Address object
+    @Embedded
+    private Address Address;
     private String image;
-    // TODO: Add jobOffer relation here
+
+    @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY)
+    private List<JobOffer> jobOffers;
 }
