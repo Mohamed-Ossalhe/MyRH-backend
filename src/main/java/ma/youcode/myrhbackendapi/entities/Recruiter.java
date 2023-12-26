@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "recruiters")
