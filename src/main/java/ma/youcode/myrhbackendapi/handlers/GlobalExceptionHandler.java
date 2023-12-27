@@ -1,8 +1,11 @@
 package ma.youcode.myrhbackendapi.handlers;
 
+import ma.youcode.myrhbackendapi.exceptions.ResourceAlreadyExistException;
+import ma.youcode.myrhbackendapi.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +15,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     *
+     * @param exception - {@link MethodArgumentNotValidException}
+     * @return HashMap with all the validation errors
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException exception) {
         Map<String, String> messages = new HashMap<>();
@@ -23,5 +32,27 @@ public class GlobalExceptionHandler {
                     messages.put(fieldName, errorMessage);
                 });
         return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Resource not found exception handler returns customizable error response entity
+     * @param exception - {@link ResourceNotFoundException}
+     * @return {@link ErrorResponse} contains all details about the exception
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException exception) {
+        ErrorResponse errorResponse = ErrorResponse.create(exception, HttpStatus.NOT_FOUND, exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Resource already exist exception handler returns customizable error response entity
+     * @param exception - {@link ResourceAlreadyExistException}
+     * @return {@link ErrorResponse} contains all details about the exception
+     */
+    @ExceptionHandler(ResourceAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleResourceAlreadyExistException(ResourceAlreadyExistException exception) {
+        ErrorResponse errorResponse = ErrorResponse.create(exception, HttpStatus.CONFLICT, exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }
