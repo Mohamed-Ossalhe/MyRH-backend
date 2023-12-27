@@ -6,7 +6,6 @@ import ma.youcode.myrhbackendapi.entities.Application;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

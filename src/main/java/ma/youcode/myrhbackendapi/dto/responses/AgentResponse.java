@@ -3,7 +3,6 @@ package ma.youcode.myrhbackendapi.dto.responses;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
