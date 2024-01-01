@@ -72,4 +72,10 @@ public class RecruiterServiceImpl implements RecruiterService {
         recruiterRepository.delete(recruiter);
         return true;
     }
+
+    @Override
+    public Recruiter findRecruiterByEmail(String email) {
+        return recruiterRepository.findRecruiterByEmail(email)
+                .orElse(null);
+    }
 }
