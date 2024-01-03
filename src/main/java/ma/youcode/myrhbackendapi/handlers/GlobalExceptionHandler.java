@@ -1,7 +1,9 @@
 package ma.youcode.myrhbackendapi.handlers;
 
+import ma.youcode.myrhbackendapi.exceptions.InvalidVerificationCodeException;
 import ma.youcode.myrhbackendapi.exceptions.ResourceAlreadyExistException;
 import ma.youcode.myrhbackendapi.exceptions.ResourceNotFoundException;
+import ma.youcode.myrhbackendapi.exceptions.TokenExpirationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -52,6 +54,28 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ResourceAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleResourceAlreadyExistException(ResourceAlreadyExistException exception) {
+        ErrorResponse errorResponse = ErrorResponse.create(exception, HttpStatus.CONFLICT, exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * throw a customizable error response to the frontend if the token is expired
+     * @param exception {@link TokenExpirationException}
+     * @return {@link ErrorResponse} contains all details about the exception
+     */
+    @ExceptionHandler(TokenExpirationException.class)
+    public ResponseEntity<ErrorResponse> handleTokenExpirationException(TokenExpirationException exception) {
+        ErrorResponse errorResponse = ErrorResponse.create(exception, HttpStatus.CONFLICT, exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Throw a customizable error response to the frontend if the token is invalid
+     * @param exception {@link InvalidVerificationCodeException}
+     * @return {@link ErrorResponse} contains all the details about the exception
+     */
+    @ExceptionHandler(InvalidVerificationCodeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidVerificationCodeException(InvalidVerificationCodeException exception) {
         ErrorResponse errorResponse = ErrorResponse.create(exception, HttpStatus.CONFLICT, exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
