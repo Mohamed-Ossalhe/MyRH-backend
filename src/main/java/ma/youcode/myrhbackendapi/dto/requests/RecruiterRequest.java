@@ -2,13 +2,18 @@ package ma.youcode.myrhbackendapi.dto.requests;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import ma.youcode.myrhbackendapi.entities.Address;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RecruiterRequest extends UserRequest {
+@RequiredArgsConstructor
+public class RecruiterRequest extends UserRequest implements Serializable {
     private String password;
 
-    private Address Address;
-    private String image;
+    private String address;
+
+    private MultipartFile image;
 }

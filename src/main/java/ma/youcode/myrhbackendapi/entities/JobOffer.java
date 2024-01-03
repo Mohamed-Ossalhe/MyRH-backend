@@ -25,9 +25,7 @@ public class JobOffer {
     private String title;
     private String description;
     private String profile;
-
-    @Embedded
-    private Address address;
+    private String address;
     private String educationalLevel;
 
     @Column(nullable = true)

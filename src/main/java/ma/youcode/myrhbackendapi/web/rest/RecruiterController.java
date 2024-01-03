@@ -6,6 +6,7 @@ import ma.youcode.myrhbackendapi.dto.requests.RecruiterRequest;
 import ma.youcode.myrhbackendapi.dto.responses.RecruiterResponse;
 import ma.youcode.myrhbackendapi.interfaces.ControllerInterface;
 import ma.youcode.myrhbackendapi.services.RecruiterService;
+import ma.youcode.myrhbackendapi.services.VerificationCodeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.*;
 public class RecruiterController implements ControllerInterface<RecruiterRequest, RecruiterResponse, UUID> {
 
     private final RecruiterService recruiterService;
+    private final VerificationCodeService verificationCodeService;
 
     @Override
     @GetMapping("/{id}")
@@ -44,7 +46,7 @@ public class RecruiterController implements ControllerInterface<RecruiterRequest
 
     @Override
     @PostMapping("/create")
-    public ResponseEntity<RecruiterResponse> create(@Valid @RequestBody RecruiterRequest recruiterRequest) {
+    public ResponseEntity<RecruiterResponse> create(@Valid @ModelAttribute RecruiterRequest recruiterRequest) {
         Optional<RecruiterResponse> recruiter = recruiterService.create(recruiterRequest);
         assert recruiter.isPresent();
         return new ResponseEntity<>(recruiter.get(), HttpStatus.CREATED);
