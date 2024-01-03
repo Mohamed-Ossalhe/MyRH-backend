@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.youcode.myrhbackendapi.entities.Address;
 import ma.youcode.myrhbackendapi.entities.Application;
 import ma.youcode.myrhbackendapi.entities.Recruiter;
 import ma.youcode.myrhbackendapi.enums.OfferStatus;
@@ -22,7 +21,7 @@ public class JobOfferResponse {
     private String description;
     private String profile;
 
-    private Address address;
+    private String address;
     private String educationalLevel;
 
     private double salary;

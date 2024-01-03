@@ -1,7 +1,6 @@
 package ma.youcode.myrhbackendapi.dto.requests;
 
 import lombok.Data;
-import ma.youcode.myrhbackendapi.entities.Address;
 import ma.youcode.myrhbackendapi.entities.Recruiter;
 import ma.youcode.myrhbackendapi.enums.OfferStatus;
 
@@ -14,7 +13,7 @@ public class JobOfferRequest {
     private String description;
     private String profile;
 
-    private Address address;
+    private String address;
     private String educationalLevel;
 
     private double salary;

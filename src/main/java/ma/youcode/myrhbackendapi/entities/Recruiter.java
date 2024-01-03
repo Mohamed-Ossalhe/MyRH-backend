@@ -13,8 +13,7 @@ import java.util.List;
 @Table(name = "recruiters")
 public class Recruiter extends User {
     private String password;
-    @Embedded
-    private Address Address;
+    private String Address;
     private String image;
 
     @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY)

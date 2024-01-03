@@ -6,6 +6,7 @@ import ma.youcode.myrhbackendapi.dto.responses.RecruiterResponse;
 import ma.youcode.myrhbackendapi.entities.Recruiter;
 import ma.youcode.myrhbackendapi.exceptions.ResourceNotFoundException;
 import ma.youcode.myrhbackendapi.repositories.RecruiterRepository;
+import ma.youcode.myrhbackendapi.services.CloudinaryService;
 import ma.youcode.myrhbackendapi.services.RecruiterService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class RecruiterServiceImpl implements RecruiterService {
 
     private final RecruiterRepository recruiterRepository;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper mapper;
 
     @Override
@@ -49,7 +51,9 @@ public class RecruiterServiceImpl implements RecruiterService {
 
     @Override
     public Optional<RecruiterResponse> create(RecruiterRequest recruiterRequest) {
+        String imageUrl = cloudinaryService.uploadFile(recruiterRequest.getImage());
         Recruiter recruiter = mapper.map(recruiterRequest, Recruiter.class);
+        recruiter.setImage(imageUrl);
         Recruiter savedRecruiter = recruiterRepository.save(recruiter);
         return Optional.of(mapper.map(savedRecruiter, RecruiterResponse.class));
     }
