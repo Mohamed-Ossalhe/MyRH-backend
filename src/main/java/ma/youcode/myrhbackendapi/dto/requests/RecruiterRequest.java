@@ -15,5 +15,7 @@ public class RecruiterRequest extends UserRequest implements Serializable {
 
     private String address;
 
+    private boolean isVerified;
+
     private MultipartFile image;
 }
