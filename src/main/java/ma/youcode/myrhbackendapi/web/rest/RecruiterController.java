@@ -3,7 +3,9 @@ package ma.youcode.myrhbackendapi.web.rest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.youcode.myrhbackendapi.dto.requests.RecruiterRequest;
+import ma.youcode.myrhbackendapi.dto.requests.VerificationCodeRequest;
 import ma.youcode.myrhbackendapi.dto.responses.RecruiterResponse;
+import ma.youcode.myrhbackendapi.dto.responses.VerificationCodeResponse;
 import ma.youcode.myrhbackendapi.interfaces.ControllerInterface;
 import ma.youcode.myrhbackendapi.services.RecruiterService;
 import ma.youcode.myrhbackendapi.services.VerificationCodeService;
@@ -67,5 +69,12 @@ public class RecruiterController implements ControllerInterface<RecruiterRequest
         if (recruiterService.destroy(id)) messages.put("message", "Recruiter Deleted Successfully");
         else messages.put("message", "Recruiter couldn't be deleted");
         return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+    @PostMapping("/verify-account")
+    public ResponseEntity<RecruiterResponse> verifyAccount(@Valid @RequestBody VerificationCodeRequest request) {
+        Optional<RecruiterResponse> recruiterResponse = recruiterService.verifyAccount(request);
+        assert recruiterResponse.isPresent();
+        return new ResponseEntity<>(recruiterResponse.get(), HttpStatus.OK);
     }
 }

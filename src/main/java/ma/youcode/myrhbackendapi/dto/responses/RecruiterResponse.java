@@ -14,6 +14,8 @@ public class RecruiterResponse extends UserResponse {
 
     private String address;
 
+    private boolean isVerified;
+
     private String image;
 
     private List<JobOffer> jobOffers;

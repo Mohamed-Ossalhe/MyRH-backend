@@ -2,6 +2,7 @@ package ma.youcode.myrhbackendapi.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import ma.youcode.myrhbackendapi.dto.responses.VerificationCodeResponse;
+import ma.youcode.myrhbackendapi.entities.Recruiter;
 import ma.youcode.myrhbackendapi.entities.VerificationCode;
 import ma.youcode.myrhbackendapi.exceptions.InvalidVerificationCodeException;
 import ma.youcode.myrhbackendapi.exceptions.ResourceNotFoundException;
@@ -11,9 +12,7 @@ import ma.youcode.myrhbackendapi.services.VerificationCodeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,17 +34,18 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     }
 
     @Override
-    public boolean verifyCode(String code) {
+    public Optional<VerificationCode> verifyCode(String code) {
         VerificationCode verificationCode = verificationCodeRepository.findVerificationCodeByCode(code)
-                .orElseThrow(() -> new ResourceNotFoundException("Verification code not found"));
-        if (LocalDateTime.now().isBefore(verificationCode.getExpiration())) throw new InvalidVerificationCodeException("Verification Code is Invalid");
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid Validation Code"));
+        if (LocalDateTime.now().isBefore(verificationCode.getExpiration().minusMinutes(3))) throw new InvalidVerificationCodeException("Verification Code is Invalid");
         if (LocalDateTime.now().isAfter(verificationCode.getExpiration())) throw new TokenExpirationException("Verification Code is Expired");
-        return true;
+        return Optional.of(verificationCode);
     }
 
     @Override
-    public Optional<VerificationCodeResponse> save(VerificationCodeResponse code) {
+    public Optional<VerificationCodeResponse> save(Recruiter recruiter, VerificationCodeResponse code) {
         VerificationCode verificationCode = mapper.map(code, VerificationCode.class);
+        verificationCode.setRecruiter(recruiter);
         VerificationCode savedVerificationCode = verificationCodeRepository.save(verificationCode);
         return Optional.of(mapper.map(savedVerificationCode, VerificationCodeResponse.class));
     }
