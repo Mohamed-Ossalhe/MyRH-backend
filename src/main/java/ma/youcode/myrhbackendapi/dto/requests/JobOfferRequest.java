@@ -20,5 +20,5 @@ public class JobOfferRequest {
 
     private OfferStatus status;
 
-    private Recruiter recruiter;
+    private String recruiter;
 }
