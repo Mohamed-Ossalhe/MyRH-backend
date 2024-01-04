@@ -28,7 +28,7 @@ public class JobOfferResponse {
 
     private OfferStatus status;
 
-    private Recruiter recruiter;
+    private RecruiterResponse recruiter;
 
-    private List<Application> applications;
+//    private List<Application> applications;
 }

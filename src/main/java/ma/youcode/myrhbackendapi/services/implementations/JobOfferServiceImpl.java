@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import ma.youcode.myrhbackendapi.dto.requests.JobOfferRequest;
 import ma.youcode.myrhbackendapi.dto.responses.JobOfferResponse;
 import ma.youcode.myrhbackendapi.entities.JobOffer;
+import ma.youcode.myrhbackendapi.entities.Recruiter;
 import ma.youcode.myrhbackendapi.exceptions.ResourceNotFoundException;
 import ma.youcode.myrhbackendapi.repositories.JobOfferRepository;
+import ma.youcode.myrhbackendapi.repositories.RecruiterRepository;
 import ma.youcode.myrhbackendapi.services.JobOfferService;
+import ma.youcode.myrhbackendapi.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import java.util.UUID;
 public class JobOfferServiceImpl implements JobOfferService {
 
     private final JobOfferRepository jobOfferRepository;
+    private final RecruiterRepository recruiterRepository;
     private final ModelMapper mapper;
 
     @Override
@@ -46,7 +50,10 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public Optional<JobOfferResponse> create(JobOfferRequest jobOfferRequest) {
+        Recruiter recruiter = recruiterRepository.findById(Utils.pareseStringToUUID(jobOfferRequest.getRecruiter()))
+                .orElseThrow(() -> new ResourceNotFoundException("No Recruiter Found with ID: " + jobOfferRequest.getRecruiter()));
         JobOffer jobOffer = mapper.map(jobOfferRequest, JobOffer.class);
+        jobOffer.setRecruiter(recruiter);
         JobOffer savedJobOffer = jobOfferRepository.save(jobOffer);
         return Optional.of(mapper.map(savedJobOffer, JobOfferResponse.class));
     }

@@ -18,5 +18,5 @@ public class RecruiterResponse extends UserResponse {
 
     private String image;
 
-    private List<JobOffer> jobOffers;
+//    private List<JobOffer> jobOffers;
 }
