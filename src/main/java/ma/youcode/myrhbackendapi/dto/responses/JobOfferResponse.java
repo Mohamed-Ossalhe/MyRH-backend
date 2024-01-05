@@ -30,5 +30,5 @@ public class JobOfferResponse {
 
     private RecruiterResponse recruiter;
 
-//    private List<Application> applications;
+//    private List<ApplicationResponse> applications;
 }

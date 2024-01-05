@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,7 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public Optional<JobOfferResponse> create(JobOfferRequest jobOfferRequest) {
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, jobOfferRequest.getRecruiter());
         Recruiter recruiter = recruiterRepository.findById(Utils.pareseStringToUUID(jobOfferRequest.getRecruiter()))
                 .orElseThrow(() -> new ResourceNotFoundException("No Recruiter Found with ID: " + jobOfferRequest.getRecruiter()));
         JobOffer jobOffer = mapper.map(jobOfferRequest, JobOffer.class);
@@ -62,7 +65,7 @@ public class JobOfferServiceImpl implements JobOfferService {
     public Optional<JobOfferResponse> update(JobOfferRequest jobOfferRequest, UUID id) {
         JobOffer jobOffer = jobOfferRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Job Offer Found with ID: " + id));
-        jobOfferRequest.setId(jobOffer.getId());
+        jobOfferRequest.setId(String.valueOf(jobOffer.getId()));
         JobOffer jobOfferToUpdate = mapper.map(jobOfferRequest, JobOffer.class);
         JobOffer savedJobOffer = jobOfferRepository.save(jobOfferToUpdate);
         return Optional.of(mapper.map(savedJobOffer, JobOfferResponse.class));

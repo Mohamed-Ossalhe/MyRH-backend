@@ -13,5 +13,5 @@ public class JobSeekerResponse extends UserResponse {
     private String identity;
     private String resume;
 
-    private List<Application> applications;
+//    private List<ApplicationResponse> applications;
 }

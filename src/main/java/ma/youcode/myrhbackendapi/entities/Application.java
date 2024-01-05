@@ -23,11 +23,11 @@ public class Application {
 
     @ManyToOne
     @MapsId("jobSeekerId")
-    @JoinColumn(name = "jobSeeker_id")
+    @JoinColumn(name = "seeker_id")
     private JobSeeker jobSeeker;
 
     @ManyToOne
     @MapsId("jobOfferId")
-    @JoinColumn(name = "jobOffer_id")
+    @JoinColumn(name = "offer_id")
     private JobOffer jobOffer;
 }

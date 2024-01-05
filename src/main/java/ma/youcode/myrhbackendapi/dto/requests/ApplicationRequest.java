@@ -11,7 +11,7 @@ public class ApplicationRequest {
 
     private String motivationLetter;
 
-    private JobSeeker jobSeeker;
+    private JobSeekerRequest jobSeeker;
 
-    private JobOffer jobOffer;
+    private JobOfferRequest jobOffer;
 }
